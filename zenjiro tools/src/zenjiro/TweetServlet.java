@@ -37,6 +37,20 @@ public class TweetServlet extends HttpServlet {
 									Arrays.toString(message
 											.getRecipients(RecipientType.TO)),
 									message.getSubject(), message.getContent() });
+			boolean isValid = false;
+			final String secretAddress = "tweet-xxxxxxxx";
+			for (final Address address : message
+					.getRecipients(RecipientType.TO)) {
+				if (address.toString().startsWith(secretAddress + "@")
+						|| address.toString().replaceFirst("^.+<", "")
+								.startsWith(secretAddress + "@")) {
+					isValid = true;
+				}
+			}
+			if (!isValid) {
+				Logger.getAnonymousLogger().log(Level.INFO, "宛先が違うので無視します。");
+				return;
+			}
 			if (message.getContent() instanceof MimeMultipart) {
 				Logger.getAnonymousLogger().log(Level.INFO, "マルチパートでした。");
 			}
