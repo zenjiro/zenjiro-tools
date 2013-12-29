@@ -1,13 +1,16 @@
 package zenjiro;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.mail.Address;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,9 +31,12 @@ public class TweetServlet extends HttpServlet {
 					req.getInputStream());
 			Logger.getAnonymousLogger()
 					.log(Level.INFO,
-							"メールを受信しました：subject: {0}, content: {1}",
-							new Object[] { message.getSubject(),
-									message.getContent() });
+							"メールを受信しました：from: {0}, to: {1}, subject: {2}, content: {3}",
+							new Object[] {
+									Arrays.toString(message.getFrom()),
+									Arrays.toString(message
+											.getRecipients(RecipientType.TO)),
+									message.getSubject(), message.getContent() });
 			if (message.getContent() instanceof MimeMultipart) {
 				Logger.getAnonymousLogger().log(Level.INFO, "マルチパートでした。");
 			}
