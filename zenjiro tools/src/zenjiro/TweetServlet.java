@@ -78,6 +78,11 @@ public class TweetServlet extends HttpServlet {
 				Logger.getAnonymousLogger().log(Level.INFO, "宛先が違うので無視します。");
 				return;
 			}
+			final Twitter twitter = new TwitterFactory().getInstance();
+			twitter.setOAuthConsumer(twitterOAuthConsumerKey,
+					twitterOAuthConsumerSecret);
+			twitter.setOAuthAccessToken(new AccessToken(
+					twitterOAuthAccessToken, twitterOAuthAccessTokenSecret));
 			if (message.getContent() instanceof MimeMultipart) {
 				final MimeMultipart content = (MimeMultipart) message
 						.getContent();
@@ -88,13 +93,6 @@ public class TweetServlet extends HttpServlet {
 					if (body.getContent() instanceof String) {
 						text = (String) body.getContent();
 					} else if (body.getContent() instanceof InputStream) {
-						final Twitter twitter = new TwitterFactory()
-								.getInstance();
-						twitter.setOAuthConsumer(twitterOAuthConsumerKey,
-								twitterOAuthConsumerSecret);
-						twitter.setOAuthAccessToken(new AccessToken(
-								twitterOAuthAccessToken,
-								twitterOAuthAccessTokenSecret));
 						final StatusUpdate status = new StatusUpdate(
 								text == null ? body.getFileName() : text);
 						status.media(body.getFileName(),
@@ -129,6 +127,14 @@ public class TweetServlet extends HttpServlet {
 				Transport.send(message);
 				message.setRecipient(Message.RecipientType.TO,
 						new InternetAddress(facebookMailAddress, "Facebook"));
+				message.setSubject(text, "ISO-2022-JP");
+				Transport.send(message);
+			} else if (message.getContent() instanceof String) {
+				final String text = (String) message.getContent();
+				twitter.updateStatus(new StatusUpdate(text));
+				message.setRecipient(Message.RecipientType.TO,
+						new InternetAddress(facebookMailAddress, "Facebook"));
+				message.setFrom(new InternetAddress(fromMailAddress));
 				message.setSubject(text, "ISO-2022-JP");
 				Transport.send(message);
 			}
