@@ -52,7 +52,6 @@ public class TweetServlet extends HttpServlet {
 		final String twitterOAuthAccessTokenSecret = "xxxxxxxx";
 		final String fromMailAddress = "xxxxxxxx@gmail.com";
 		final String flickrMailAddress = "xxxxxxxx@photos.flickr.com";
-		final String mixiMailAddress = "xxxxxxxx@pv.mixi.jp";
 		final String facebookMailAddress = "xxxxxxxx@m.facebook.com";
 		try {
 			final MimeMessage message = new MimeMessage(
@@ -132,15 +131,6 @@ public class TweetServlet extends HttpServlet {
 						new InternetAddress(facebookMailAddress, "Facebook"));
 				message.setSubject(text, "ISO-2022-JP");
 				Transport.send(message);
-				{
-					final com.google.appengine.api.mail.MailService.Message m = new com.google.appengine.api.mail.MailService.Message();
-					m.setSender(fromMailAddress);
-					m.setTo(mixiMailAddress);
-					m.setSubject("日本語の件名");
-					m.setTextBody("日本語の本文");
-					com.google.appengine.api.mail.MailServiceFactory
-							.getMailService().send(m);
-				}
 			}
 		} catch (final MessagingException exception) {
 			Logger.getAnonymousLogger().log(Level.WARNING, "メールの処理に失敗しました：{0}",
