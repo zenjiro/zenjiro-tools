@@ -126,14 +126,21 @@ public class TweetServlet extends HttpServlet {
 				}
 				message.setRecipient(Message.RecipientType.TO,
 						new InternetAddress(flickrMailAddress, "Flickr"));
-				message.addRecipient(Message.RecipientType.TO,
-						new InternetAddress(mixiMailAddress, "mixi"));
 				message.setFrom(new InternetAddress(fromMailAddress));
 				Transport.send(message);
 				message.setRecipient(Message.RecipientType.TO,
 						new InternetAddress(facebookMailAddress, "Facebook"));
 				message.setSubject(text, "ISO-2022-JP");
 				Transport.send(message);
+				{
+					final com.google.appengine.api.mail.MailService.Message m = new com.google.appengine.api.mail.MailService.Message();
+					m.setSender(fromMailAddress);
+					m.setTo(mixiMailAddress);
+					m.setSubject("日本語の件名");
+					m.setTextBody("日本語の本文");
+					com.google.appengine.api.mail.MailServiceFactory
+							.getMailService().send(m);
+				}
 			}
 		} catch (final MessagingException exception) {
 			Logger.getAnonymousLogger().log(Level.WARNING, "メールの処理に失敗しました：{0}",
