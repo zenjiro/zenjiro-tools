@@ -121,9 +121,9 @@ public class TweetServlet extends HttpServlet {
 						twitter.updateStatus(status);
 					}
 				}
+				message.setFrom(new InternetAddress(fromMailAddress));
 				message.setRecipient(Message.RecipientType.TO,
 						new InternetAddress(flickrMailAddress, "Flickr"));
-				message.setFrom(new InternetAddress(fromMailAddress));
 				Transport.send(message);
 				message.setRecipient(Message.RecipientType.TO,
 						new InternetAddress(facebookMailAddress, "Facebook"));
@@ -132,9 +132,9 @@ public class TweetServlet extends HttpServlet {
 			} else if (message.getContent() instanceof String) {
 				final String text = (String) message.getContent();
 				twitter.updateStatus(new StatusUpdate(text));
+				message.setFrom(new InternetAddress(fromMailAddress));
 				message.setRecipient(Message.RecipientType.TO,
 						new InternetAddress(facebookMailAddress, "Facebook"));
-				message.setFrom(new InternetAddress(fromMailAddress));
 				message.setSubject(text, "ISO-2022-JP");
 				Transport.send(message);
 			}
