@@ -45,15 +45,14 @@ public class TweetServlet extends HttpServlet {
 	protected void doPost(final HttpServletRequest req,
 			final HttpServletResponse resp) throws ServletException,
 			IOException {
-		// TODO 修正
 		final String applicationMailAddress = "tweet-xxxxxxxx";
 		final String twitterOAuthConsumerKey = "xxxxxxxx";
 		final String twitterOAuthConsumerSecret = "xxxxxxxx";
 		final String twitterOAuthAccessToken = "xxxxxxxx";
 		final String twitterOAuthAccessTokenSecret = "xxxxxxxx";
+		final String fromMailAddress = "xxxxxxxx@gmail.com";
 		final String flickrMailAddress = "xxxxxxxx@photos.flickr.com";
 		final String mixiMailAddress = "xxxxxxxx@pv.mixi.jp";
-		final String fromMailAddress = "xxxxxxxx@gmail.com";
 		final String facebookMailAddress = "xxxxxxxx@m.facebook.com";
 		try {
 			final MimeMessage message = new MimeMessage(
