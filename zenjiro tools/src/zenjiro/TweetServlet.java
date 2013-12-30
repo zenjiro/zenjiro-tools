@@ -45,14 +45,6 @@ public class TweetServlet extends HttpServlet {
 	protected void doPost(final HttpServletRequest req,
 			final HttpServletResponse resp) throws ServletException,
 			IOException {
-		final String applicationMailAddress = "tweet-xxxxxxxx";
-		final String twitterOAuthConsumerKey = "xxxxxxxx";
-		final String twitterOAuthConsumerSecret = "xxxxxxxx";
-		final String twitterOAuthAccessToken = "xxxxxxxx";
-		final String twitterOAuthAccessTokenSecret = "xxxxxxxx";
-		final String fromMailAddress = "xxxxxxxx@gmail.com";
-		final String flickrMailAddress = "xxxxxxxx@photos.flickr.com";
-		final String facebookMailAddress = "xxxxxxxx@m.facebook.com";
 		try {
 			final MimeMessage message = new MimeMessage(
 					Session.getDefaultInstance(new Properties(), null),
@@ -68,9 +60,13 @@ public class TweetServlet extends HttpServlet {
 			boolean isValid = false;
 			for (final Address address : message
 					.getRecipients(RecipientType.TO)) {
-				if (address.toString().startsWith(applicationMailAddress + "@")
-						|| address.toString().replaceFirst("^.+<", "")
-								.startsWith(applicationMailAddress + "@")) {
+				if (address.toString().startsWith(
+						Const.APPLICATION_MAIL_ADDRESS + "@")
+						|| address
+								.toString()
+								.replaceFirst("^.+<", "")
+								.startsWith(
+										Const.APPLICATION_MAIL_ADDRESS + "@")) {
 					isValid = true;
 				}
 			}
@@ -79,10 +75,11 @@ public class TweetServlet extends HttpServlet {
 				return;
 			}
 			final Twitter twitter = new TwitterFactory().getInstance();
-			twitter.setOAuthConsumer(twitterOAuthConsumerKey,
-					twitterOAuthConsumerSecret);
+			twitter.setOAuthConsumer(Const.TWITTER_O_AUTH_CONSUMER_KEY,
+					Const.TWITTER_O_AUTH_CONSUMER_SECRET);
 			twitter.setOAuthAccessToken(new AccessToken(
-					twitterOAuthAccessToken, twitterOAuthAccessTokenSecret));
+					Const.TWITTER_O_AUTH_ACCESS_TOKEN,
+					Const.TWITTER_O_AUTH_ACCESS_TOKEN_SECRET));
 			if (message.getContent() instanceof MimeMultipart) {
 				final MimeMultipart content = (MimeMultipart) message
 						.getContent();
@@ -121,20 +118,23 @@ public class TweetServlet extends HttpServlet {
 						twitter.updateStatus(status);
 					}
 				}
-				message.setFrom(new InternetAddress(fromMailAddress));
-				message.setRecipient(Message.RecipientType.TO,
-						new InternetAddress(flickrMailAddress, "Flickr"));
+				message.setFrom(new InternetAddress(Const.FROM_MAIL_ADDRESS));
+				message.setRecipient(
+						Message.RecipientType.TO,
+						new InternetAddress(Const.FLICKR_MAIL_ADDRESS, "Flickr"));
 				Transport.send(message);
 				message.setRecipient(Message.RecipientType.TO,
-						new InternetAddress(facebookMailAddress, "Facebook"));
+						new InternetAddress(Const.FACEBOOK_MAIL_ADDRESS,
+								"Facebook"));
 				message.setSubject(text, "ISO-2022-JP");
 				Transport.send(message);
 			} else if (message.getContent() instanceof String) {
 				final String text = (String) message.getContent();
 				twitter.updateStatus(new StatusUpdate(text));
-				message.setFrom(new InternetAddress(fromMailAddress));
+				message.setFrom(new InternetAddress(Const.FROM_MAIL_ADDRESS));
 				message.setRecipient(Message.RecipientType.TO,
-						new InternetAddress(facebookMailAddress, "Facebook"));
+						new InternetAddress(Const.FACEBOOK_MAIL_ADDRESS,
+								"Facebook"));
 				message.setSubject(text, "ISO-2022-JP");
 				Transport.send(message);
 			}

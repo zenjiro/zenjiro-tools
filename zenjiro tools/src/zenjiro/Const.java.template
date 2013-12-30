@@ -1,0 +1,16 @@
+package zenjiro;
+
+/**
+ * 修正するべき定数を集めたクラス
+ * TODO ファイル名をConst.javaに変更して修正
+ */
+public class Const {
+	public static final String APPLICATION_MAIL_ADDRESS = "tweet-xxxxxxxx";
+	public static final String TWITTER_O_AUTH_CONSUMER_KEY = "xxxxxxxx";
+	public static final String TWITTER_O_AUTH_CONSUMER_SECRET = "xxxxxxxx";
+	public static final String TWITTER_O_AUTH_ACCESS_TOKEN = "xxxxxxxx";
+	public static final String TWITTER_O_AUTH_ACCESS_TOKEN_SECRET = "xxxxxxxx";
+	public static final String FROM_MAIL_ADDRESS = "xxxxxxxx@gmail.com";
+	public static final String FLICKR_MAIL_ADDRESS = "xxxxxxxx@photos.flickr.com";
+	public static final String FACEBOOK_MAIL_ADDRESS = "xxxxxxxx@m.facebook.com";
+}
