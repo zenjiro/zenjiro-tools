@@ -132,7 +132,7 @@ public class TweetServlet extends HttpServlet {
 				Transport.send(message);
 				message.setRecipient(Message.RecipientType.TO,
 						new InternetAddress(facebookMailAddress, "Facebook"));
-				message.setSubject(text);
+				message.setSubject(text, "ISO-2022-JP");
 				Transport.send(message);
 			}
 		} catch (final MessagingException exception) {
