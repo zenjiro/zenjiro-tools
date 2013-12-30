@@ -86,7 +86,7 @@ public class TweetServlet extends HttpServlet {
 			if (message.getContent() instanceof MimeMultipart) {
 				final MimeMultipart content = (MimeMultipart) message
 						.getContent();
-				// FIXME 本文が先に来たときにしか本文を投稿できない。
+				// XXX 本文が先に来たときにしか本文を投稿できないけど、CA005とGmailから送信したメールではそうなっている。
 				String text = null;
 				for (int i = 0; i < content.getCount(); i++) {
 					final BodyPart body = content.getBodyPart(i);
@@ -104,7 +104,7 @@ public class TweetServlet extends HttpServlet {
 								.getDirectory(GpsDirectory.class);
 						if (directory instanceof GpsDirectory) {
 							final GpsDirectory gps = (GpsDirectory) directory;
-							// FIXME 東経、北緯決め打ちで処理している。
+							// XXX 東経、北緯決め打ちで処理しているけど海外に行くことはしばらくはなさそうなので。
 							final Rational[] lat = gps
 									.getRationalArray(GpsDirectory.TAG_GPS_LATITUDE);
 							final double latitude = lat[0].doubleValue()
