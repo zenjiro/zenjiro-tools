@@ -39,4 +39,20 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 			<role-name>admin</role-name>
 		</auth-constraint>
 	</security-constraint>
+	<servlet>
+		<servlet-name>checkmixi</servlet-name>
+		<servlet-class>zenjiro.CheckMixiServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>checkmixi</servlet-name>
+		<url-pattern>/cron/checkmixi</url-pattern>
+	</servlet-mapping>
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/cron/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
 </web-app>
