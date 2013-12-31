@@ -74,12 +74,6 @@ public class TweetServlet extends HttpServlet {
 				Logger.getAnonymousLogger().log(Level.INFO, "宛先が違うので無視します。");
 				return;
 			}
-			final Twitter twitter = new TwitterFactory().getInstance();
-			twitter.setOAuthConsumer(Const.TWITTER_O_AUTH_CONSUMER_KEY,
-					Const.TWITTER_O_AUTH_CONSUMER_SECRET);
-			twitter.setOAuthAccessToken(new AccessToken(
-					Const.TWITTER_O_AUTH_ACCESS_TOKEN,
-					Const.TWITTER_O_AUTH_ACCESS_TOKEN_SECRET));
 			if (message.getContent() instanceof MimeMultipart) {
 				final MimeMultipart content = (MimeMultipart) message
 						.getContent();
@@ -115,6 +109,14 @@ public class TweetServlet extends HttpServlet {
 							status.setLocation(new GeoLocation(latitude,
 									longitude));
 						}
+						final Twitter twitter = new TwitterFactory()
+								.getInstance();
+						twitter.setOAuthConsumer(
+								Const.TWITTER_O_AUTH_CONSUMER_KEY,
+								Const.TWITTER_O_AUTH_CONSUMER_SECRET);
+						twitter.setOAuthAccessToken(new AccessToken(
+								Const.TWITTER_O_AUTH_ACCESS_TOKEN,
+								Const.TWITTER_O_AUTH_ACCESS_TOKEN_SECRET));
 						twitter.updateStatus(status);
 					}
 				}
@@ -130,6 +132,12 @@ public class TweetServlet extends HttpServlet {
 				Transport.send(message);
 			} else if (message.getContent() instanceof String) {
 				final String text = (String) message.getContent();
+				final Twitter twitter = new TwitterFactory().getInstance();
+				twitter.setOAuthConsumer(Const.TWITTER_O_AUTH_CONSUMER_KEY,
+						Const.TWITTER_O_AUTH_CONSUMER_SECRET);
+				twitter.setOAuthAccessToken(new AccessToken(
+						Const.TWITTER_O_AUTH_ACCESS_TOKEN,
+						Const.TWITTER_O_AUTH_ACCESS_TOKEN_SECRET));
 				twitter.updateStatus(new StatusUpdate(text));
 				message.setFrom(new InternetAddress(Const.FROM_MAIL_ADDRESS));
 				message.setRecipient(Message.RecipientType.TO,
