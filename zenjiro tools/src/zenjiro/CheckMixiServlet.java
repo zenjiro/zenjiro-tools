@@ -21,13 +21,7 @@ public class CheckMixiServlet extends HttpServlet {
 	protected void doGet(final HttpServletRequest req,
 			final HttpServletResponse resp) throws ServletException,
 			IOException {
-		final HttpURLConnection connection = (HttpURLConnection) new URL(
-				"http://mixi.jp/new_bbs.pl").openConnection();
-		connection.setRequestMethod("GET");
-		connection.setRequestProperty("Accept-Encoding", "gzip");
-		connection.setRequestProperty("Cookie", Const.MIXI_COOKIE);
-		final Scanner scanner = new Scanner(new InputStreamReader(
-				new GZIPInputStream(connection.getInputStream()), "EUC-JP"));
+		final Scanner scanner = getScanner("http://mixi.jp/new_bbs.pl");
 		while (scanner.hasNextLine()) {
 			final Matcher matcher = Pattern
 					.compile(
@@ -38,14 +32,7 @@ public class CheckMixiServlet extends HttpServlet {
 				final String title = matcher.group(2);
 				Logger.getAnonymousLogger().log(Level.INFO,
 						"title: {0}, url: {1}", new String[] { title, url });
-				final HttpURLConnection connection2 = (HttpURLConnection) new URL(
-						url).openConnection();
-				connection2.setRequestMethod("GET");
-				connection2.setRequestProperty("Accept-Encoding", "gzip");
-				connection2.setRequestProperty("Cookie", Const.MIXI_COOKIE);
-				final Scanner scanner2 = new Scanner(new InputStreamReader(
-						new GZIPInputStream(connection2.getInputStream()),
-						"EUC-JP"));
+				final Scanner scanner2 = getScanner(url);
 				boolean isPrinting = false;
 				while (scanner2.hasNextLine()) {
 					final String line = scanner2.nextLine().trim();
@@ -65,5 +52,21 @@ public class CheckMixiServlet extends HttpServlet {
 			}
 		}
 		scanner.close();
+	}
+
+	/**
+	 * URLを指定してスキャナを取得します。
+	 * @param url URL
+	 * @return スキャナ
+	 * @throws IOException 入出力例外
+	 */
+	Scanner getScanner(final String url) throws IOException {
+		final HttpURLConnection connection = (HttpURLConnection) new URL(url)
+				.openConnection();
+		connection.setRequestMethod("GET");
+		connection.setRequestProperty("Accept-Encoding", "gzip");
+		connection.setRequestProperty("Cookie", Const.MIXI_COOKIE);
+		return new Scanner(new InputStreamReader(new GZIPInputStream(
+				connection.getInputStream()), "EUC-JP"));
 	}
 }
