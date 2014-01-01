@@ -49,7 +49,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	<security-constraint>
 		<web-resource-collection>
-			<url-pattern>/cron/*</url-pattern>
+			<url-pattern>/cron____/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>
