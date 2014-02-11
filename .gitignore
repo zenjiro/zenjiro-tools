@@ -221,3 +221,4 @@ Const.java
 /zenjiro tools/war/WEB-INF/lib/geronimo-*.jar
 /zenjiro tools/war/WEB-INF/lib/jdo-*.jar
 /zenjiro tools/war/WEB-INF/lib/jta-*.jar
+/zenjiro tools/war/WEB-INF/lib/jsr107cache-*.jar
