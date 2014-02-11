@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * mixiの「参加コミュニティの最新書き込み」を定期的に確認するサーブレット
+ */
 public class CheckMixiServlet extends HttpServlet {
 	@Override
 	protected void doGet(final HttpServletRequest req,

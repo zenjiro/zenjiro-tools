@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.mail.BounceNotification;
 import com.google.appengine.api.mail.BounceNotificationParser;
 
+/**
+ * エラーメールを処理するサーブレット
+ */
 public class BounceHandlerServlet extends HttpServlet {
 	@Override
 	public void doPost(final HttpServletRequest req,
