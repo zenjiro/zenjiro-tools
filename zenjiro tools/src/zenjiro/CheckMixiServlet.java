@@ -21,9 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CheckMixiServlet extends HttpServlet {
 	@Override
-	protected void doGet(final HttpServletRequest req,
-			final HttpServletResponse resp) throws ServletException,
-			IOException {
+	protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
+			throws ServletException, IOException {
 		final Scanner scanner = getScanner("http://mixi.jp/new_bbs.pl");
 		while (scanner.hasNextLine()) {
 			final Matcher matcher = Pattern
@@ -33,8 +32,8 @@ public class CheckMixiServlet extends HttpServlet {
 			if (matcher.matches()) {
 				final String url = matcher.group(1);
 				final String title = matcher.group(2);
-				Logger.getAnonymousLogger().log(Level.INFO,
-						"title: {0}, url: {1}", new String[] { title, url });
+				Logger.getAnonymousLogger().log(Level.INFO, "title: {0}, url: {1}",
+						new String[] { title, url });
 				final Scanner scanner2 = getScanner(url);
 				boolean isPrinting = false;
 				while (scanner2.hasNextLine()) {
@@ -44,8 +43,7 @@ public class CheckMixiServlet extends HttpServlet {
 						break;
 					}
 					if (isPrinting) {
-						Logger.getAnonymousLogger().info(
-								line.replaceAll("<[^>]+>|-->", "").trim());
+						Logger.getAnonymousLogger().info(line.replaceAll("<[^>]+>|-->", "").trim());
 					}
 					if (line.equals("<dd>")) {
 						isPrinting = true;
@@ -64,12 +62,11 @@ public class CheckMixiServlet extends HttpServlet {
 	 * @throws IOException 入出力例外
 	 */
 	Scanner getScanner(final String url) throws IOException {
-		final HttpURLConnection connection = (HttpURLConnection) new URL(url)
-				.openConnection();
+		final HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("Accept-Encoding", "gzip");
 		connection.setRequestProperty("Cookie", Const.MIXI_COOKIE);
-		return new Scanner(new InputStreamReader(new GZIPInputStream(
-				connection.getInputStream()), "EUC-JP"));
+		return new Scanner(new InputStreamReader(new GZIPInputStream(connection.getInputStream()),
+				"EUC-JP"));
 	}
 }

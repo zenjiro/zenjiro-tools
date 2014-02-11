@@ -17,11 +17,10 @@ import com.google.appengine.api.mail.BounceNotificationParser;
  */
 public class BounceHandlerServlet extends HttpServlet {
 	@Override
-	public void doPost(final HttpServletRequest req,
-			final HttpServletResponse resp) throws IOException {
+	public void doPost(final HttpServletRequest req, final HttpServletResponse resp)
+			throws IOException {
 		try {
-			final BounceNotification bounce = BounceNotificationParser
-					.parse(req);
+			final BounceNotification bounce = BounceNotificationParser.parse(req);
 			Logger.getAnonymousLogger()
 					.log(Level.WARNING,
 							"from: {0}, to: {1}, subject: {2}, text: {3}, from: {4}, to: {5}, subject: {6}, text: {7}",
